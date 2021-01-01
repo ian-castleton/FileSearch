@@ -3,7 +3,6 @@
 # Uses the GTK notebook class for tab view
 # 2020-12-27
 
-import os
 import gi
 
 gi.require_version("Gtk", "3.0")
@@ -19,8 +18,6 @@ class MyWindow(Gtk.Window):
         self.set_default_size(1400,800)
         self.set_border_width(3)
 
-        self.set_icon_from_file(get_resource_path("Search.png"))
-
         mainview = Gtk.VBox()
         self.add(mainview)
 
@@ -31,7 +28,9 @@ class MyWindow(Gtk.Window):
 
         self.statusbar = StatusBar()
         self.configMgr = ConfigMgr( self.statusbar )
-        
+
+        self.set_icon_from_file(self.configMgr.get_resource_path("Search.png"))
+
         mainWindow = self
         self.searchTool = SearchTool( mainWindow, self.statusbar, self.configMgr )
 
@@ -39,13 +38,6 @@ class MyWindow(Gtk.Window):
         tabbedview.append_page(self.configMgr.page, Gtk.Label(label="Config"))
 
         mainview.pack_end( self.statusbar, False, False, 0)
-
-
-def get_resource_path(rel_path):
-    dir_of_py_file = os.path.dirname(__file__)
-    rel_path_to_resource = os.path.join(dir_of_py_file, rel_path)
-    abs_path_to_resource = os.path.abspath(rel_path_to_resource)
-    return abs_path_to_resource
 
         
 win = MyWindow()
